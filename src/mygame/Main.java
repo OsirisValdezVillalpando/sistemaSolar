@@ -43,7 +43,7 @@ public class Main extends SimpleApplication {
         AppSettings settings = new AppSettings(true);
         settings.setTitle("Sistsema Solar");
         settings.setSettingsDialogImage("Interface/sisSolar1.jpg");
-        settings.setFrameRate(20);
+        settings.setFrameRate(60);
         app.setSettings(settings);
         
         app.start();
@@ -55,12 +55,12 @@ public class Main extends SimpleApplication {
         flyCam.setMoveSpeed(60f);
         
         //creamos las esferas para el Sol y los Planetas
-        Sphere Sol = new Sphere(200, 200, 2);
+        Sphere Sol = new Sphere(100, 100, 7);
         Sphere Mercurio = new Sphere(100, 100, 1);
-        Sphere Venus = new Sphere(100, 100, 1);
-        Sphere Tierra = new Sphere(100, 100, 1);
-        Sphere Marte = new Sphere(100, 100, 1);
-        Sphere Jupiter = new Sphere(100, 100, 1);
+        Sphere Venus = new Sphere(100, 100, 2);
+        Sphere Tierra = new Sphere(100, 100, 5);
+        Sphere Marte = new Sphere(100, 100, 4);
+        Sphere Jupiter = new Sphere(100, 100, 6);
         
         //creamos la geometria el Solylos Planetas
         Geometry geomSol = new Geometry("Sol", Sol);
@@ -95,12 +95,13 @@ public class Main extends SimpleApplication {
         matJupiter.setTexture("ColorMap", assetManager.loadTexture("Textures/jupiter.jpg"));
         geomJupiter.setMaterial(matJupiter);
         
-        //movemos los Planetas en el eje de las X parapoder visualizarlos y ubicarlos
-        geomMercurio.move(10, 0, 0);
-        geomVenus.move(20, 0, 0);
-        geomTierra.move(30, 0, 0);
-        geomMarte.move(40, 0, 0);
-        geomJupiter.move(50, 0, 0);
+        //movemos los Planetas en el eje de las X
+        //a para poder visualizarlos y ubicarlos
+        geomMercurio.move(20, 0, 0);
+        geomVenus.move(40, 0, 0);
+        geomTierra.move(60, 0, 0);
+        geomMarte.move(80, 0, 0);
+        geomJupiter.move(100, 0, 0);
         
         //creamos los nodos para los Planetas
         Node nodoSol = new Node("nodoSol");
@@ -142,11 +143,15 @@ public class Main extends SimpleApplication {
         nodoQueRotaMarte.attachChild(nodoMarte);
         nodoQueRotaJupiter.attachChild(nodoJupiter);
         
-        //rotamos los nodos de los Planetas para que queden sus
-        //polos en norte y sur adecuadamente.
-        //como el nodo de los Planetas esta enlazado con el del Sol,
-        //solo rotamos el del Sol para que los planetas roten junto con el
-        nodoSol.rotate(FastMath.DEG_TO_RAD*90, 0, 0);
+ 
+        //Rotamos las geometrias de el Sol y los Planetas para que los polos
+        //de las texturas no esten a los costados y esten en norte y sur correspondiente
+        geomSol.rotate(FastMath.HALF_PI*3, 0, 0);
+        geomMercurio.rotate(FastMath.HALF_PI*3, 0, 0);
+        geomVenus.rotate(FastMath.HALF_PI*3, 0, 0);
+        geomTierra.rotate(FastMath.HALF_PI*3, 0, 0);
+        geomMarte.rotate(FastMath.HALF_PI*3, 0, 0);
+        geomJupiter.rotate(FastMath.HALF_PI*3, 0, 0);
         
         
     }
@@ -154,20 +159,21 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         
+        
         //declaramos variables para la velocidad de traslacion y rotacion
-        float velocidadOrbitaMercurio = FastMath.DEG_TO_RAD*0.0001f;
+        float velocidadOrbitaMercurio = FastMath.DEG_TO_RAD*0.00001f;
         float velocidadRotacionMercurio = FastMath.DEG_TO_RAD*1f;
                 
-        float velocidadOrbitaVenus = FastMath.DEG_TO_RAD*0.0002f;
+        float velocidadOrbitaVenus = FastMath.DEG_TO_RAD*0.00002f;
         float velocidadRotacionVenus = FastMath.DEG_TO_RAD*1.5f;
          
-        float velocidadOrbitaTierra = FastMath.DEG_TO_RAD*0.0003f;
+        float velocidadOrbitaTierra = FastMath.DEG_TO_RAD*0.00003f;
         float velocidadRotacionTierra = FastMath.DEG_TO_RAD*2f;
         
-        float velocidadOrbitaMarte = FastMath.DEG_TO_RAD*0.0004f;
+        float velocidadOrbitaMarte = FastMath.DEG_TO_RAD*0.00004f;
         float velocidadRotacionMarte = FastMath.DEG_TO_RAD*2.5f;
         
-        float velocidadOrbitaJupiter = FastMath.DEG_TO_RAD*0.0005f;
+        float velocidadOrbitaJupiter = FastMath.DEG_TO_RAD*0.00005f;
         float velocidadRotacionJupiter = FastMath.DEG_TO_RAD*3f;
         
         
@@ -232,7 +238,7 @@ public class Main extends SimpleApplication {
             rotacionJupiter.rotate(0, velocidadRotacionJupiter, 0);
         }
     }
-
+        
     @Override
     public void simpleRender(RenderManager rm) {
         //TODO: add render code
